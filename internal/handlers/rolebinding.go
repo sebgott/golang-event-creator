@@ -6,18 +6,19 @@ import (
 
 	"github.com/sebgott/event-creator/internal/models"
 
-	"sigs.k8s.io/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 func GenerateRoleBindingHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	name := r.FormValue("name")
-	principal := r.FormValue("principal")
+	namespace := r.FormValue("namespace")
+	principalType := r.FormValue("principalType")
+	principalName := r.FormValue("principalName")
 	role := r.FormValue("roleName")
-	resType := r.FormValue("resourceType")
 	resName := r.FormValue("resourceName")
 
-	rb := models.NewRoleBinding(name, principal, role, resType, resName)
+	rb := models.NewRoleBinding(name, namespace, principalType, principalName, role, resName)
 	y, _ := yaml.Marshal(rb)
 
 	w.Header().Set("Content-Type", "text/html")

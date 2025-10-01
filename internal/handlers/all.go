@@ -8,7 +8,7 @@ import (
 
 	"github.com/sebgott/event-creator/internal/models"
 
-	"sigs.k8s.io/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 func GenerateAllHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,9 +54,10 @@ func GenerateAllHandler(w http.ResponseWriter, r *http.Request) {
 
 	rb := models.NewRoleBinding(
 		"rb-"+topic.Metadata.Name,
-		r.FormValue("principal"),
+		topic.Metadata.Namespace,
+		r.FormValue("principalType"),
+		r.FormValue("principalName"),
 		r.FormValue("roleName"),
-		r.FormValue("resourceType"),
 		resourceName,
 	)
 	rbYaml, _ := yaml.Marshal(rb)

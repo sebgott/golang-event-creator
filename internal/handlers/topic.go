@@ -7,7 +7,7 @@ import (
 
 	"github.com/sebgott/event-creator/internal/models"
 
-	"sigs.k8s.io/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 func GenerateTopicHandler(w http.ResponseWriter, r *http.Request) {

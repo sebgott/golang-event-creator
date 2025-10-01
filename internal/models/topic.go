@@ -43,7 +43,7 @@ func NewKafkaTopic(name, namespace string, partitions, replicas int) KafkaTopic 
 }
 
 var TopicPresets = map[string]KafkaTopic{
-	"baseAnnotations": {
+	"baseConfig": {
 		APIVersion: "platform.confluent.io/v1beta1",
 		Kind:       "KafkaTopic",
 		Metadata: TopicMetadata{
