@@ -1,0 +1,49 @@
+{{ define "content" }}
+<h1>Create Kafka Topic + Role Binding</h1>
+
+<div class="layout-grid">
+    <div class="form-container">
+        <form hx-post="/generate/all" hx-target="#yamlOutput" hx-swap="innerHTML">
+            <fieldset>
+                <legend>Topic</legend>
+                <label>Name <input name="topic_name" required></label>
+                <label>Namespace <input name="topic_namespace" required></label>
+                <label>Partitions <input name="partitions" type="number" value="1" required></label>
+                <label>Replicas <input name="replicas" type="number" value="3" required></label>
+
+                <label>Template
+                    <select name="template">
+                        <option value="">(none)</option>
+                        <option value="baseAnnotations">Base configs</option>
+                    </select>
+                </label>
+
+                <div id="configs">
+                    <h3>Configs</h3>
+                    <div class="config-item">
+                        <input name="config_key[]" placeholder="key">
+                        <input name="config_val[]" placeholder="value">
+                    </div>
+                    <button hx-get="/form/add-config" hx-target="#configs" hx-swap="beforeend" type="button">
+                        Add config...
+                    </button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Role Binding</legend>
+                <label>Principal <input name="principal" placeholder="User:123" required></label>
+                <label>Role Name <input name="roleName" placeholder="DeveloperRead" required></label>
+                <label>Resource Type <input name="resourceType" value="Topic" required></label>
+                <label>Resource Name <input name="resourceName" placeholder="(leave empty to use topic name)"></label>
+            </fieldset>
+
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <div class="output-container">
+        <div id="yamlOutput"></div>
+    </div>
+</div>
+{{ end }}
