@@ -1,0 +1,62 @@
+{{ define "content" }}
+<h1>Create Kafka Topic + Role Binding</h1>
+
+<div class="layout-grid">
+    <div class="form-container">
+        <form hx-post="/generate/all" hx-target="#yamlOutput" hx-swap="innerHTML">
+            <fieldset>
+                <legend>Topic</legend>
+                <label>Name <input name="topic_name" required></label>
+                <label>Namespace <input name="topic_namespace" value="confluent" required></label>
+                <label>Partitions <input name="partitions" type="number" value="1" required></label>
+                <label>Replicas <input name="replicas" type="number" value="3" required></label>
+
+                <label>Config template
+                    <select name="template">
+                        <option value="">(none)</option>
+                        <option value="baseConfig">Base configs - Delete topic</option>
+                    </select>
+                </label>
+
+                <div id="configs">
+                    <h3>Configs</h3>
+                    <div class="config-item">
+                        <input name="config_key[]" placeholder="key">
+                        <input name="config_val[]" placeholder="value">
+                    </div>
+                    <button hx-get="/form/add-config" hx-target="#configs" hx-swap="beforeend" type="button">
+                        Add config...
+                    </button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Role Binding</legend>
+                <label>Principal Type
+                    <select name="principalType" required>
+                        <option value="">Select type...</option>
+                        <option value="group">Group</option>
+                        <option value="user">User</option>
+                    </select>
+                </label>
+                <label>Principal Name <input name="principalName" placeholder="group or user name" required></label>
+                <label>Role Name
+                    <select name="roleName" required>
+                        <option value="">Select a role...</option>
+                        {{ range .Roles }}
+                        <option value="{{ . }}">{{ . }}</option>
+                        {{ end }}
+                    </select>
+                </label>
+                <label>Resource Name <input name="resourceName" placeholder="(leave empty to use topic name)"></label>
+            </fieldset>
+
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <div class="output-container">
+        <div id="yamlOutput"></div>
+    </div>
+</div>
+{{ end }}
